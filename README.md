@@ -196,6 +196,21 @@ Where the docs? It loosed! Recovering...
 
 **Note:** *changes type of component to* **block**
 
+### POST /component/{id}/cast/relation
+**Params:** none
+
+**Response:** status code
+
+**Note:** *changes type of component to* **relation**
+
+### POST /component/{id}/position
+**Params:**
+* num_cell: **int**
+
+**Response:** status code
+
+**Note:** *changes position of component*
+
 ## Relation
 ### *@Rest*
 
