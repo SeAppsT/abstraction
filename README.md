@@ -1,4 +1,4 @@
-Where the docs? It loosed! Recovering...
+
 # SeApps abstraction
 ### My project (REST + SOA API) powered by Spring framework
 
