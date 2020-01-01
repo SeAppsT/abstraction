@@ -7,6 +7,45 @@
 * **@Rest** annotation marked the following content as a resource path
 * **@Soa** annotation marked the following content as a calling functions path
 
+## Auth/User
+
+### POST /auth
+**Params:**
+* login
+* password
+
+**Response:** response example
+```
+{
+    "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MiIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpYXQiOjE1Nzc5MTEwMjIsImV4cCI6MTU3Nzk5NzQyMn0.aWuF0kyajgY7sjjIJBo_bBCH4hWzqUvkumRZkyXavrM",
+    "user": {
+        "id": 121,
+        "status": "ACTIVE",
+        "name": null,
+        "description": null,
+        "login": "test2",
+        "password": "$2a$10$jY1Q1FjjLk.gpwSMec4AbeBQaznzi6skWifLyUt6INUyZlQVvsNUC",
+        "roles": [
+            {
+                "id": 1,
+                "status": "ACTIVE",
+                "name": "ROLE_USER",
+                "description": null
+            }
+        ]
+    }
+}
+```
+
+### POST /user
+**Params:**
+* login
+* password
+* **@Nn** name
+* **@Nn** description
+
+**Response:** status code
+
 ## Workspace
 ### *@Rest*
 
