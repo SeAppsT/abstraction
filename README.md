@@ -274,3 +274,40 @@
 ### DELETE /relation/{id}
 
 **Response:** status code
+
+## Media
+### *@Rest*
+
+### GET /media/{id}
+
+**Response:** response example
+```
+{
+    "id": 147,
+    "status": "ACTIVE",
+    "name": "image",
+    "description": "yjdt",
+    "path": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmaWxlbmFtZSIsIm5hbWUiOiJpbWFnZSIsImlhdCI6MTU3NjQ1NDI1NX0.UoeHp9uM7br_pmPBKlo6uNFdoAv7TcwdWfpZ0PbEH08",
+    "type": "img"
+}
+```
+
+### POST /media
+**Params:**
+* **@Nn** name
+* **@Nn** description
+* type
+* component_id
+
+**Response:** status code
+
+### PUT /media/{id}
+**Params:**
+* **@Nn** name
+* **@Nn** description
+
+**Response:** status code
+
+### DELETE /media/{id}
+
+**Response:** status code
