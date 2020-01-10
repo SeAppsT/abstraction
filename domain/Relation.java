@@ -33,6 +33,14 @@ public class Relation extends BaseEntity {
     @JsonIgnore
     private Workspace workspace;
 
+    public Workspace getWorkspace() {
+        return workspace;
+    }
+
+    public void setWorkspace(Workspace workspace) {
+        this.workspace = workspace;
+    }
+
     public Relation(){}
 
     public Component getComponentTo() {

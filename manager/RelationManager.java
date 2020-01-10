@@ -1,5 +1,6 @@
 package com.example.beck.manager;
 
+import com.example.beck.domain.Component;
 import com.example.beck.domain.Relation;
 import com.example.beck.dto.RelationDto;
 import com.example.beck.exception.EntityNotFoundException;
@@ -24,7 +25,9 @@ public class RelationManager {
     public void addRelation(RelationDto relationDto) throws InvalidPropertyException {
         Relation relation = relationDto.cast(new Relation());
         relation.setComponentFrom(this.componentRepository.findById(relationDto.component_from_id).orElseThrow(InvalidPropertyException::new));
-        relation.setComponentTo(this.componentRepository.findById(relationDto.component_to_id).orElseThrow(InvalidPropertyException::new));
+        Component component_to = this.componentRepository.findById(relationDto.component_to_id).orElseThrow(InvalidPropertyException::new);
+        relation.setComponentTo(component_to);
+        relation.setWorkspace(component_to.getWorkspace());
         this.relationRepository.save(relation);
     }
 
@@ -40,6 +43,6 @@ public class RelationManager {
     }
 
     public void deleteRelation(Long id){
-
+        this.relationRepository.deleteById(id);
     }
 }
