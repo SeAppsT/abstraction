@@ -1,5 +1,6 @@
 package com.example.beck.web;
 
+import com.example.beck.domain.Component;
 import com.example.beck.dto.ComponentDto;
 import com.example.beck.dto.validation.Add;
 import com.example.beck.dto.validation.Edit;
@@ -11,6 +12,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.beck.exception.*;
+
+import java.util.List;
 
 
 @RestController
@@ -27,6 +30,11 @@ public class ComponentResource {
     @GetMapping("/{id}")
     public ComponentViewer getComponent(@PathVariable Long id) throws EntityNotFoundException  {
         return this.componentService.getOneComponent(id);
+    }
+
+    @GetMapping("/{workspace_id}/block")
+    public List<Component> getBlocksByWorkspace(@PathVariable Long workspace_id){
+        return this.componentService.getAllBlocks(workspace_id);
     }
 
     @PostMapping

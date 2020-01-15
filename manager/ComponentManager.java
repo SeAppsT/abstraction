@@ -56,6 +56,10 @@ public class ComponentManager{
         return viewer;
     }
 
+    public List<Component> getAllBlocks(Long workspace_id){
+        return this.componentRepository.findAllByWorkspace_IdAndType(workspace_id, "block");
+    }
+
     public void editComponent(ComponentDto componentDto, Long id) throws EntityNotFoundException {
         Component component = this.componentRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         if (componentDto.num_cell != 0)
