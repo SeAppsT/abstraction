@@ -20,12 +20,12 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
-public class AuthController {
+public class AuthWebService {
 
     private AuthService authService;
 
     @Autowired
-    public AuthController(AuthService authService) {
+    public AuthWebService(AuthService authService) {
         this.authService = authService;
     }
 

@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/component/{id}")
-public class ComponentController {
+public class ComponentWebService {
     private ComponentManager componentManager;
 
     @Autowired
-    public ComponentController(ComponentManager componentManager) {
+    public ComponentWebService(ComponentManager componentManager) {
         this.componentManager = componentManager;
     }
 
