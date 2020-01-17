@@ -7,6 +7,8 @@
 * **@Rest** annotation marked the following content as a resource path
 * **@Soa** annotation marked the following content as a calling functions path
 
+## List API (22 at least):
+
 ## Auth/User
 
 ### POST /auth
