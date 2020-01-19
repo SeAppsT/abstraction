@@ -1,5 +1,7 @@
 package com.example.beck.manager;
 
+import com.example.beck.domain.Component;
+import com.example.beck.domain.Relation;
 import com.example.beck.domain.Workspace;
 import com.example.beck.dto.WorkspaceDto;
 import com.example.beck.exception.EntityNotFoundException;
@@ -7,6 +9,8 @@ import com.example.beck.repository.ComponentRepository;
 import com.example.beck.repository.RelationRepository;
 import com.example.beck.repository.WorkspaceRepository;
 import com.example.beck.provider.AuditorAwareProvider;
+import com.example.beck.view.RelationViewer;
+import com.example.beck.view.SimpleComponentViewer;
 import com.example.beck.view.WorkspaceViewer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,8 +49,28 @@ public class WorkspaceManager {
     public WorkspaceViewer getOne(Long id) throws EntityNotFoundException {
         Workspace workspace = this.workspaceRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         WorkspaceViewer viewer = new WorkspaceViewer(workspace);
-        viewer.components = this.componentRepository.findAllByWorkspace_Id(workspace.getId());
-        viewer.relations = this.relationRepository.findAllByWorkspace_Id(workspace.getId());
+        // get from DB
+        List<Component> components = this.componentRepository.findAllByWorkspace_IdAndType(workspace.getId(), "block");
+        List<Relation> simpleRelations = this.relationRepository.findAllByWorkspace_Id(workspace.getId());
+        //List<Component> namedRelations = this.componentRepository.findAllByWorkspace_IdAndType(workspace.getId(), "relationship");
+
+        // process
+        viewer.components = new ArrayList<>();
+        for (Component component: components) {
+            SimpleComponentViewer scv = new SimpleComponentViewer(component);
+            scv.relations = new ArrayList<>();
+            for (Relation relation: simpleRelations){
+                if (relation.getComponentFrom().getId().equals(scv.getId())){
+                    RelationViewer rv = new RelationViewer();
+                    rv.component_id = relation.getComponentTo().getId();
+                    rv.name = relation.getName();
+                    rv.type = relation.getType();
+                    rv.color = "";
+                    scv.relations.add(rv);
+                }
+            }
+            viewer.components.add(scv);
+        }
         return viewer;
     }
 

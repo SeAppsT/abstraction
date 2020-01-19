@@ -11,8 +11,7 @@ import java.util.List;
 @Viewer
 public class WorkspaceViewer extends Workspace {
 
-    public List<Component> components;
-    public List<Relation> relations;
+    public List<SimpleComponentViewer> components;
 
     public WorkspaceViewer(Workspace workspace){
         this.id = workspace.getId();

@@ -9,7 +9,7 @@ import com.example.beck.repository.ComponentRepository;
 import com.example.beck.repository.MediaRepository;
 import com.example.beck.repository.RelationRepository;
 import com.example.beck.repository.WorkspaceRepository;
-import com.example.beck.view.ComponentViewer;
+import com.example.beck.view.ExtendedComponentViewer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,9 +39,9 @@ public class ComponentManager{
         this.componentRepository.save(component);
     }
 
-    public ComponentViewer getOneComponent(Long id) throws EntityNotFoundException {
+    public ExtendedComponentViewer getOneComponent(Long id) throws EntityNotFoundException {
         Component component = this.componentRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        ComponentViewer viewer = new ComponentViewer(component);
+        ExtendedComponentViewer viewer = new ExtendedComponentViewer(component);
         viewer.files = this.mediaRepository.findAllByComponent_Id(component.getId());
         List<Relation> relations = new ArrayList<>();
         viewer.relationsAsBlocks = new ArrayList<>();

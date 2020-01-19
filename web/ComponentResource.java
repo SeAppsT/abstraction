@@ -5,7 +5,7 @@ import com.example.beck.dto.ComponentDto;
 import com.example.beck.dto.validation.Add;
 import com.example.beck.dto.validation.Edit;
 import com.example.beck.manager.ComponentManager;
-import com.example.beck.view.ComponentViewer;
+import com.example.beck.view.ExtendedComponentViewer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -28,7 +28,7 @@ public class ComponentResource {
     }
 
     @GetMapping("/{id}")
-    public ComponentViewer getComponent(@PathVariable Long id) throws EntityNotFoundException  {
+    public ExtendedComponentViewer getComponent(@PathVariable Long id) throws EntityNotFoundException  {
         return this.componentService.getOneComponent(id);
     }
 

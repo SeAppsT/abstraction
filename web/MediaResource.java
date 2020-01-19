@@ -30,11 +30,11 @@ public class MediaResource {
     }
 
     @PostMapping
-    public Media addMedia(@RequestBody @Validated(Add.class) MediaDto mediaDto) throws EntityNotFoundException {
+    public Long addMedia(@RequestBody @Validated(Add.class) MediaDto mediaDto) throws EntityNotFoundException {
         Media media = mediaDto.cast(new Media());
         media.setComponent(this.componentRepository.findById(mediaDto.component_id).orElseThrow(EntityNotFoundException::new));
         this.mediaRepository.save(media);
-        return media;
+        return media.getId();
     }
 
     @PutMapping("/{id}")

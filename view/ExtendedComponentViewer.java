@@ -8,14 +8,14 @@ import com.example.beck.domain.Relation;
 import java.util.List;
 
 @Viewer
-public class ComponentViewer extends Component {
+public class ExtendedComponentViewer extends Component {
 
     public List<Media> files;
     public List<Relation> relationsAsBlocks;
     public List<Relation> relationsAsRelations;
     public Long workspace_id;
 
-    public ComponentViewer(Component component){
+    public ExtendedComponentViewer(Component component){
         this.id = component.getId();
         this.name = component.getName();
         this.description = component.getDescription();
