@@ -62,10 +62,14 @@ public class WorkspaceManager {
             for (Relation relation: simpleRelations){
                 if (relation.getComponentFrom().getId().equals(scv.getId())){
                     RelationViewer rv = new RelationViewer();
-                    rv.component_id = relation.getComponentTo().getId();
-                    rv.name = relation.getName();
-                    rv.type = relation.getType();
-                    rv.color = "";
+                    if (relation.getComponentTo().getType().equals("block")) {
+                        rv.component_id = relation.getComponentTo().getId();
+                        rv.name = relation.getName();
+                        rv.type = relation.getType();
+                        rv.color = "";
+                    } else {
+                        
+                    }
                     scv.relations.add(rv);
                 }
             }

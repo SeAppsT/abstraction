@@ -88,54 +88,44 @@
     "user": null,
     "components": [
         {
+            "id": 180,
+            "status": "ACTIVE",
+            "name": "V6",
+            "description": "This block is deprecated",
+            "user": null,
+            "num_cell": 1,
+            "type": "block",
+            "color": null,
+            "relations": [
+                {
+                    "component_id": 156,
+                    "type": "abstraction",
+                    "name": null,
+                    "color": ""
+                }
+            ]
+        },
+        {
+            "id": 159,
+            "status": "ACTIVE",
+            "name": "Смотрю",
+            "description": null,
+            "user": null,
+            "num_cell": 7,
+            "type": "block",
+            "color": null,
+            "relations": []
+        },
+        {
             "id": 151,
             "status": "ACTIVE",
             "name": "Component added",
-            "description": null,
+            "description": "Кто addнул this component?",
             "user": null,
             "num_cell": 4,
             "type": "block",
-            "color": null
-        },
-        {
-            "id": 189,
-            "status": "ACTIVE",
-            "name": "Новый блок",
-            "description": null,
-            "user": null,
-            "num_cell": 16,
-            "type": "block",
-            "color": null
-        }
-    ],
-    "relations": [
-        {
-            "id": 146,
-            "status": "ACTIVE",
-            "name": "My relation",
-            "description": null,
-            "user": null,
-            "componentTo": {
-                "id": 143,
-                "status": "ACTIVE",
-                "name": "SecAdComponent",
-                "description": null,
-                "user": null,
-                "num_cell": 0,
-                "type": "relationship",
-                "color": null
-            },
-            "type": "abstraction",
-            "componentFrom": {
-                "id": 142,
-                "status": "ACTIVE",
-                "name": "Added сomponent",
-                "description": "Description",
-                "user": null,
-                "num_cell": 10,
-                "type": "block",
-                "color": null
-            }
+            "color": null,
+            "relations": []
         }
     ]
 }
