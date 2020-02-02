@@ -50,7 +50,7 @@ public class ComponentResource {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteComponent(@PathVariable Long id) throws EntityNotFoundException {
+    public ResponseEntity deleteComponent(@PathVariable Long id) throws EntityNotFoundException, UndeletebleEntityException {
         this.componentService.deleteComponent(id);
         return ResponseEntity.ok().build();
     }

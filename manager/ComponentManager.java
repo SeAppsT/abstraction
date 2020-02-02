@@ -70,7 +70,7 @@ public class ComponentManager{
 
     public void deleteComponent(Long id) throws EntityNotFoundException {
         if (this.componentRepository.existsById(id))
-            this.componentRepository.deleteById(id);
+            this.componentRepository.safeDelete(this.componentRepository.findById(id).orElseThrow(EntityNotFoundException::new));
         else
             throw new EntityNotFoundException();
     }

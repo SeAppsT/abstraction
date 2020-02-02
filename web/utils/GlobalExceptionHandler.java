@@ -17,6 +17,7 @@ public class GlobalExceptionHandler {
             EntityNotFoundException.class,
             InvalidPropertyException.class,
             SuchEntityExistsException.class,
+            UndeletebleEntityException.class
     })
     public ResponseEntity handle(BaseException e){
         return ResponseEntity.badRequest().body(e.getMessage());
