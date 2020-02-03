@@ -243,6 +243,7 @@
 * **@Nn** name
 * **@Nn** description
 
+
 **Response:** status code
 
 ### DELETE /component/{id}
