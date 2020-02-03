@@ -17,6 +17,7 @@ public class ComponentDto extends BaseDto {
     public int num_cell;
 
     public String type;
+    public String color;
 
     @Override
     public Component cast(BaseEntity entity) {
@@ -24,6 +25,7 @@ public class ComponentDto extends BaseDto {
         component.setName(this.name);
         component.setDescription(this.description);
         component.setType(this.type);
+        component.setColor(this.color);
         return component;
     }
 

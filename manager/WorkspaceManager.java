@@ -65,11 +65,13 @@ public class WorkspaceManager {
             for (Relation relation: simpleRelations){
                 if (relation.getComponentFrom().getId().equals(scv.getId())){
                     RelationViewer rv = new RelationViewer(relation);
-                    if (relation.getComponentTo().getType().equals("block")) {
-                        rv.component_id = relation.getComponentTo().getId();
-                        rv.color = "";
-                    } else if (relation.getComponentTo().getType().equals("annotation")){
-                        scv.annotated.add(new AnnotationComponentViewer(relation.getComponentTo()));
+                    if (relation.getComponentTo().getType() != null) {
+                        if (relation.getComponentTo().getType().equals("block")) {
+                            rv.component_id = relation.getComponentTo().getId();
+                            rv.color = "";
+                        } else if (relation.getComponentTo().getType().equals("annotation")) {
+                            scv.annotated.add(new AnnotationComponentViewer(relation.getComponentTo()));
+                        }
                     }
                     scv.relations.add(rv);
                 }
