@@ -5,7 +5,9 @@ import com.example.beck.dto.ComponentDto;
 import com.example.beck.dto.validation.Add;
 import com.example.beck.dto.validation.Edit;
 import com.example.beck.manager.ComponentManager;
+import com.example.beck.view.ContainerComponentViewer;
 import com.example.beck.view.ExtendedComponentViewer;
+import com.example.beck.view.SimpleComponentViewer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -37,9 +39,20 @@ public class ComponentResource {
         return this.componentService.getAllBlocks(workspace_id);
     }
 
+    @GetMapping("/{component_id}/local")
+    public ContainerComponentViewer getLocalAbstractionLevel(@PathVariable Long component_id) throws EntityNotFoundException {
+        return this.componentService.getLocalAbstractionLevel(component_id);
+    }
+
     @PostMapping
     public ResponseEntity addComponent(@RequestBody @Validated(Add.class) ComponentDto componentDto) throws InvalidPropertyException {
         this.componentService.addComponent(componentDto);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{component_id}")
+    public ResponseEntity addDependComponent(@PathVariable Long component_id, @RequestBody @Validated(Add.class) ComponentDto componentDto) throws InvalidPropertyException, EntityNotFoundException {
+        this.componentService.addDependComponent(component_id, componentDto);
         return ResponseEntity.ok().build();
     }
 

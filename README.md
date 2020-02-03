@@ -199,6 +199,28 @@
 }
 ```
 
+### GET /component/{id}/local
+**Response:** response example
+```
+{
+    "id": 189,
+    "name": "И чо дальше?",
+    "components": [
+        {
+            "id": 354,
+            "status": "ACTIVE",
+            "name": "ElseOneEditedComponent",
+            "description": "",
+            "user": null,
+            "num_cell": 8,
+            "type": "block",
+            "color": null,
+            "relations": null
+        }
+    ]
+}
+```
+
 ### POST /component
 **Params:**
 * **@Nn** name
@@ -206,6 +228,15 @@
 * workspace_id
 * num_cell
 **Response:** status code
+
+### POST /component/{component_id}
+**Params:**
+* **@Nn** name
+* **@Nn** description
+* workspace_id
+* num_cell
+**Response:** status code
+**Note:** to create components with relation by one step
 
 ### PUT /component/{id}
 **Params:**

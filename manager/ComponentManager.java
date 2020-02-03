@@ -2,6 +2,7 @@ package com.example.beck.manager;
 
 import com.example.beck.domain.Component;
 import com.example.beck.domain.Relation;
+import com.example.beck.domain.Workspace;
 import com.example.beck.dto.ComponentDto;
 import com.example.beck.exception.EntityNotFoundException;
 import com.example.beck.exception.InvalidPropertyException;
@@ -9,7 +10,10 @@ import com.example.beck.repository.ComponentRepository;
 import com.example.beck.repository.MediaRepository;
 import com.example.beck.repository.RelationRepository;
 import com.example.beck.repository.WorkspaceRepository;
+import com.example.beck.view.ContainerComponentViewer;
 import com.example.beck.view.ExtendedComponentViewer;
+import com.example.beck.view.RelationViewer;
+import com.example.beck.view.SimpleComponentViewer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,21 +43,48 @@ public class ComponentManager{
         this.componentRepository.save(component);
     }
 
+    public void addDependComponent(Long id, ComponentDto componentDto) throws EntityNotFoundException {
+        Component parentComponent = this.componentRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        Component addedComponent = componentDto.cast(new Component());
+        addedComponent.setNum_cell(componentDto.num_cell);
+        Workspace workspace = this.workspaceRepository.findById(componentDto.workspace_id).orElseThrow(EntityNotFoundException::new);
+        addedComponent.setWorkspace(workspace);
+        this.componentRepository.save(addedComponent);
+        Relation abstractionRelation = new Relation();
+        abstractionRelation.setComponentFrom(parentComponent);
+        abstractionRelation.setComponentTo(addedComponent);
+        abstractionRelation.setType("abstraction");
+        abstractionRelation.setWorkspace(workspace);
+        this.relationRepository.save(abstractionRelation);
+    }
+
     public ExtendedComponentViewer getOneComponent(Long id) throws EntityNotFoundException {
         Component component = this.componentRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         ExtendedComponentViewer viewer = new ExtendedComponentViewer(component);
         viewer.files = this.mediaRepository.findAllByComponent_Id(component.getId());
-        List<Relation> relations = new ArrayList<>();
         viewer.relationsAsBlocks = new ArrayList<>();
         viewer.relationsAsRelations = new ArrayList<>();
-        relations = this.relationRepository.findAllByComponentFrom_IdOrComponentTo_Id(component.getId(), component.getId());
+        List<Relation> relations = this.relationRepository.findAllByComponentFrom_IdOrComponentTo_Id(component.getId(), component.getId());
         for (Relation relation: relations) {
-            if (relation.getComponentFrom().getType().equals("block") || relation.getComponentTo().getType().equals("block"))
-                viewer.relationsAsBlocks.add(relation);
-            else
-                viewer.relationsAsRelations.add(relation);
+            if (relation.getComponentFrom().getType().equals("block") || relation.getComponentTo().getType().equals("block")) {
+                RelationViewer rv = new RelationViewer(relation);
+                rv.component_id = this.checkForRelation(relation, component.getId());
+                viewer.relationsAsBlocks.add(rv);
+            }
+            else {
+                RelationViewer rv = new RelationViewer(relation);
+                rv.component_id = this.checkForRelation(relation, component.getId());
+                viewer.relationsAsRelations.add(rv);
+            }
         }
         return viewer;
+    }
+
+    private Long checkForRelation(Relation relation, Long id){
+        if (relation.getComponentTo().getId().equals(id))
+            return relation.getComponentFrom().getId();
+        else
+            return relation.getComponentTo().getId();
     }
 
     public List<Component> getAllBlocks(Long workspace_id){
@@ -70,7 +101,7 @@ public class ComponentManager{
 
     public void deleteComponent(Long id) throws EntityNotFoundException {
         if (this.componentRepository.existsById(id))
-            this.componentRepository.safeDelete(this.componentRepository.findById(id).orElseThrow(EntityNotFoundException::new));
+            this.componentRepository.delete(this.componentRepository.findById(id).orElseThrow(EntityNotFoundException::new));
         else
             throw new EntityNotFoundException();
     }
@@ -91,5 +122,15 @@ public class ComponentManager{
         Component component = this.componentRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         component.setNum_cell(num_cell);
         this.componentRepository.save(component);
+    }
+
+    public ContainerComponentViewer getLocalAbstractionLevel(Long component_id) throws EntityNotFoundException {
+        Component component = this.componentRepository.findById(component_id).orElseThrow(EntityNotFoundException::new);
+        ContainerComponentViewer main = new ContainerComponentViewer(component);
+        List<Relation> relations = this.relationRepository.findAllByComponentFrom_Id(component_id);
+        relations.forEach(relation -> {
+            main.components.add(new SimpleComponentViewer(relation.getComponentTo()));
+        });
+        return main;
     }
 }

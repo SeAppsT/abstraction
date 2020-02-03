@@ -11,4 +11,5 @@ import java.util.List;
 public interface RelationRepository extends BaseRepository<Relation> {
     public List<Relation> findAllByComponentFrom_IdOrComponentTo_Id(Long component_from_id, Long component_to_id);
     public List<Relation> findAllByWorkspace_Id(Long id);
+    public List<Relation> findAllByComponentFrom_Id(Long component_id);
 }

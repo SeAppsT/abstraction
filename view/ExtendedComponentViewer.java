@@ -11,8 +11,8 @@ import java.util.List;
 public class ExtendedComponentViewer extends Component {
 
     public List<Media> files;
-    public List<Relation> relationsAsBlocks;
-    public List<Relation> relationsAsRelations;
+    public List<RelationViewer> relationsAsBlocks;
+    public List<RelationViewer> relationsAsRelations;
     public Long workspace_id;
 
     public ExtendedComponentViewer(Component component){

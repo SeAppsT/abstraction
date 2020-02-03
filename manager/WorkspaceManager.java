@@ -51,10 +51,11 @@ public class WorkspaceManager {
         WorkspaceViewer viewer = new WorkspaceViewer(workspace);
         // get from DB
         List<Component> components = this.componentRepository.findAllByWorkspace_IdAndType(workspace.getId(), "block");
-        List<Relation> simpleRelations = this.relationRepository.findAllByWorkspace_Id(workspace.getId());
-        //List<Component> namedRelations = this.componentRepository.findAllByWorkspace_IdAndType(workspace.getId(), "relationship");
 
-        // process
+        List<Relation> simpleRelations = this.relationRepository.findAllByWorkspace_Id(workspace.getId());
+        // List<Component> namedRelations = this.componentRepository.findAllByWorkspace_IdAndType(workspace.getId(), "relationship");
+
+        // processing
         viewer.components = new ArrayList<>();
         for (Component component: components) {
             SimpleComponentViewer scv = new SimpleComponentViewer(component);
