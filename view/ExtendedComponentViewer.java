@@ -5,6 +5,7 @@ import com.example.beck.domain.Component;
 import com.example.beck.domain.Media;
 import com.example.beck.domain.Relation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Viewer
@@ -13,6 +14,7 @@ public class ExtendedComponentViewer extends Component {
     public List<Media> files;
     public List<RelationViewer> relationsAsBlocks;
     public List<RelationViewer> relationsAsRelations;
+    public List<AnnotationComponentViewer> annotated = new ArrayList<>();
     public Long workspace_id;
 
     public ExtendedComponentViewer(Component component){

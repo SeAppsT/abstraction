@@ -9,6 +9,7 @@ import com.example.beck.repository.ComponentRepository;
 import com.example.beck.repository.RelationRepository;
 import com.example.beck.repository.WorkspaceRepository;
 import com.example.beck.provider.AuditorAwareProvider;
+import com.example.beck.view.AnnotationComponentViewer;
 import com.example.beck.view.RelationViewer;
 import com.example.beck.view.SimpleComponentViewer;
 import com.example.beck.view.WorkspaceViewer;
@@ -51,6 +52,7 @@ public class WorkspaceManager {
         WorkspaceViewer viewer = new WorkspaceViewer(workspace);
         // get from DB
         List<Component> components = this.componentRepository.findAllByWorkspace_IdAndType(workspace.getId(), "block");
+        List<Component> annotations = this.componentRepository.findAllByWorkspace_IdAndType(workspace.getId(), "annotation");
 
         List<Relation> simpleRelations = this.relationRepository.findAllByWorkspace_Id(workspace.getId());
         // List<Component> namedRelations = this.componentRepository.findAllByWorkspace_IdAndType(workspace.getId(), "relationship");
@@ -66,14 +68,17 @@ public class WorkspaceManager {
                     if (relation.getComponentTo().getType().equals("block")) {
                         rv.component_id = relation.getComponentTo().getId();
                         rv.color = "";
-                    } else {
-                        
+                    } else if (relation.getComponentTo().getType().equals("annotation")){
+                        scv.annotated.add(new AnnotationComponentViewer(relation.getComponentTo()));
                     }
                     scv.relations.add(rv);
                 }
             }
             viewer.components.add(scv);
         }
+        annotations.forEach(annotation -> {
+            viewer.annotations.add(new AnnotationComponentViewer(annotation));
+        });
         return viewer;
     }
 

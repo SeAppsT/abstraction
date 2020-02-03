@@ -16,11 +16,14 @@ public class ComponentDto extends BaseDto {
     @NotNull(groups = Add.class)
     public int num_cell;
 
+    public String type;
+
     @Override
     public Component cast(BaseEntity entity) {
         Component component = (Component) entity;
         component.setName(this.name);
         component.setDescription(this.description);
+        component.setType(this.type);
         return component;
     }
 

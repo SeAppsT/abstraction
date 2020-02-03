@@ -28,6 +28,12 @@ public class ComponentWebService {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/cast/annotation")
+    public ResponseEntity castToAnnotation(@PathVariable Long id) throws EntityNotFoundException {
+        this.componentManager.castToAnnotation(id);
+        return ResponseEntity.ok().build();
+    }
+
     @PostMapping("/position")
     public ResponseEntity setPosition(@PathVariable Long id, @RequestBody int num_cell) throws EntityNotFoundException {
         this.componentManager.setPosition(id, num_cell);

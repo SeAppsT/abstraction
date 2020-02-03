@@ -6,12 +6,14 @@ import com.example.beck.domain.Component;
 import com.example.beck.domain.Relation;
 import com.example.beck.domain.Workspace;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Viewer
 public class WorkspaceViewer extends Workspace {
 
     public List<SimpleComponentViewer> components;
+    public List<AnnotationComponentViewer> annotations = new ArrayList<>();
 
     public WorkspaceViewer(Workspace workspace){
         this.id = workspace.getId();

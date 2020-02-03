@@ -118,6 +118,12 @@ public class ComponentManager{
         this.componentRepository.save(component);
     }
 
+    public void castToAnnotation(Long id) throws EntityNotFoundException {
+        Component component = this.componentRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        component.setType("annotation");
+        this.componentRepository.save(component);
+    }
+
     public void setPosition(Long id, int num_cell) throws EntityNotFoundException {
         Component component = this.componentRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         component.setNum_cell(num_cell);
@@ -129,6 +135,7 @@ public class ComponentManager{
         ContainerComponentViewer main = new ContainerComponentViewer(component);
         List<Relation> relations = this.relationRepository.findAllByComponentFrom_Id(component_id);
         relations.forEach(relation -> {
+
             main.components.add(new SimpleComponentViewer(relation.getComponentTo()));
         });
         return main;
