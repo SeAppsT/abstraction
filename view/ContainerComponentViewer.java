@@ -10,10 +10,12 @@ import java.util.List;
 public class ContainerComponentViewer {
     public Long id;
     public String name;
+    public Long workspace_id;
     public List<SimpleComponentViewer> components = new ArrayList<>();
 
     public ContainerComponentViewer(Component component){
         this.id = component.getId();
         this.name = component.getName();
+        this.workspace_id = component.getWorkspace().getId();
     }
 }
