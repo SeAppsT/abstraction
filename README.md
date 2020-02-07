@@ -155,46 +155,45 @@
 
 ```
 {
-    "id": 142,
+    "id": 180,
     "status": "ACTIVE",
-    "name": "Added сomponent",
-    "description": "Description",
+    "name": "V6",
+    "description": "This block is deprecated",
     "user": null,
-    "num_cell": 10,
+    "num_cell": 1,
     "type": "block",
     "color": null,
-    "files": [
+    "files": [],
+    "relations": [
         {
-            "id": 147,
-            "status": "ACTIVE",
-            "name": "image",
-            "description": "yjdt",
-            "path": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmaWxlbmFtZSIsIm5hbWUiOiJpbWFnZSIsImlhdCI6MTU3NjQ1NDI1NX0.UoeHp9uM7br_pmPBKlo6uNFdoAv7TcwdWfpZ0PbEH08",
-            "type": "img"
-        }
-    ],
-    "relationsAsBlocks": [
-        {
-            "id": 146,
-            "status": "ACTIVE",
-            "name": "My relation",
+            "relation_id": 476,
+            "component_id": 159,
+            "name": "Смотрю",
+            "type": null,
+            "mode": "from",
             "description": null,
-            "user": null,
-            "componentTo": null,
-            "type": "abstraction",
-            "componentFrom": {
-                "id": 142,
-                "status": "ACTIVE",
-                "name": "Added сomponent",
-                "description": "Description",
-                "user": null,
-                "num_cell": 10,
-                "type": "block",
-                "color": null
-            }
+            "color": null
+        },
+        {
+            "relation_id": 474,
+            "component_id": 254,
+            "name": "cgjfgjhn",
+            "type": null,
+            "mode": "from",
+            "description": null,
+            "color": null
+        },
+        {
+            "relation_id": 475,
+            "component_id": 334,
+            "name": "Александр Блок",
+            "type": null,
+            "mode": "from",
+            "description": null,
+            "color": null
         }
     ],
-    "relationsAsRelations": [],
+    "annotated": [],
     "workspace_id": 138
 }
 ```

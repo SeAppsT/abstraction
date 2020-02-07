@@ -10,10 +10,7 @@ import com.example.beck.repository.ComponentRepository;
 import com.example.beck.repository.MediaRepository;
 import com.example.beck.repository.RelationRepository;
 import com.example.beck.repository.WorkspaceRepository;
-import com.example.beck.view.ContainerComponentViewer;
-import com.example.beck.view.ExtendedComponentViewer;
-import com.example.beck.view.RelationViewer;
-import com.example.beck.view.SimpleComponentViewer;
+import com.example.beck.view.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,29 +59,27 @@ public class ComponentManager{
         Component component = this.componentRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         ExtendedComponentViewer viewer = new ExtendedComponentViewer(component);
         viewer.files = this.mediaRepository.findAllByComponent_Id(component.getId());
-        viewer.relationsAsBlocks = new ArrayList<>();
-        viewer.relationsAsRelations = new ArrayList<>();
+        viewer.relations = new ArrayList<>();
         List<Relation> relations = this.relationRepository.findAllByComponentFrom_IdOrComponentTo_Id(component.getId(), component.getId());
         for (Relation relation: relations) {
             if (relation.getComponentFrom().getType().equals("block") || relation.getComponentTo().getType().equals("block")) {
-                RelationViewer rv = new RelationViewer(relation);
-                rv.component_id = this.checkForRelation(relation, component.getId());
-                viewer.relationsAsBlocks.add(rv);
-            }
-            else {
-                RelationViewer rv = new RelationViewer(relation);
-                rv.component_id = this.checkForRelation(relation, component.getId());
-                viewer.relationsAsRelations.add(rv);
+                RelationComponentViewer rcv = new RelationComponentViewer(relation, this.checkForRelation(relation, component.getId()));
+                viewer.relations.add(rcv);
             }
         }
         return viewer;
     }
 
-    private Long checkForRelation(Relation relation, Long id){
+    public SimpleComponentViewer getSimpleComponent(Long id) throws EntityNotFoundException {
+        Component component = this.componentRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        return new SimpleComponentViewer(component);
+    }
+
+    private Component checkForRelation(Relation relation, Long id){
         if (relation.getComponentTo().getId().equals(id))
-            return relation.getComponentFrom().getId();
+            return relation.getComponentFrom();
         else
-            return relation.getComponentTo().getId();
+            return relation.getComponentTo();
     }
 
     public List<Component> getAllBlocks(Long workspace_id){

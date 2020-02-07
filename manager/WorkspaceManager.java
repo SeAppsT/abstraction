@@ -65,7 +65,7 @@ public class WorkspaceManager {
             for (Relation relation: simpleRelations){
                 if (relation.getComponentFrom().getId().equals(scv.getId())){
                     RelationViewer rv = new RelationViewer(relation);
-                    if (relation.getComponentTo().getType() != null) {
+                    if (relation.getComponentTo().getType() != null) { // for old blocks
                         if (relation.getComponentTo().getType().equals("block")) {
                             rv.component_id = relation.getComponentTo().getId();
                             rv.color = "";

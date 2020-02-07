@@ -16,7 +16,7 @@ public class ComponentDto extends BaseDto {
     @NotNull(groups = Add.class)
     public int num_cell;
 
-    public String type;
+    public String type = "block";
     public String color;
 
     @Override

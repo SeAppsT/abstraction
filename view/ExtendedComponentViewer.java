@@ -12,8 +12,7 @@ import java.util.List;
 public class ExtendedComponentViewer extends Component {
 
     public List<Media> files;
-    public List<RelationViewer> relationsAsBlocks;
-    public List<RelationViewer> relationsAsRelations;
+    public List<RelationComponentViewer> relations;
     public List<AnnotationComponentViewer> annotated = new ArrayList<>();
     public Long workspace_id;
 
