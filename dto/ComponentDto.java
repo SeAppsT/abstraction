@@ -18,6 +18,8 @@ public class ComponentDto extends BaseDto {
 
     public String type = "block";
     public String color;
+    public String title_to;
+    public String title_from;
 
     @Override
     public Component cast(BaseEntity entity) {
@@ -26,6 +28,8 @@ public class ComponentDto extends BaseDto {
         component.setDescription(this.description);
         component.setType(this.type);
         component.setColor(this.color);
+        component.setTitle_to(this.title_to);
+        component.setTitle_from(this.title_from);
         return component;
     }
 

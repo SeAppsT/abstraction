@@ -16,6 +16,7 @@ public class SimpleComponentViewer extends Component {
         this.id = component.getId();
         this.name = component.getName();
         this.description = component.getDescription();
+        this.color = component.getColor();
         this.num_cell = component.getNum_cell();
     }
 }

@@ -26,6 +26,28 @@ public class Component extends BaseEntity{
     @Column
     protected String color;
 
+    @Column
+    private String title_to;
+
+    @Column
+    private String title_from;
+
+    public String getTitle_to() {
+        return title_to;
+    }
+
+    public void setTitle_to(String title_to) {
+        this.title_to = title_to;
+    }
+
+    public String getTitle_from() {
+        return title_from;
+    }
+
+    public void setTitle_from(String title_from) {
+        this.title_from = title_from;
+    }
+
     @JoinColumn(nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore

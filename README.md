@@ -155,46 +155,39 @@
 
 ```
 {
-    "id": 180,
+    "id": 361,
     "status": "ACTIVE",
-    "name": "V6",
-    "description": "This block is deprecated",
+    "name": "Лампа",
+    "description": "Прибор для освещения (разума Жеки, хотя чего его освещать, он и так светлый)",
     "user": null,
-    "num_cell": 1,
+    "num_cell": 9,
     "type": "block",
-    "color": null,
+    "color": "#636363",
+    "title_to": null,
+    "title_from": null,
     "files": [],
     "relations": [
         {
-            "relation_id": 476,
-            "component_id": 159,
-            "name": "Смотрю",
+            "relation_id": 364,
+            "component_id": 363,
+            "name": "Свет",
             "type": null,
             "mode": "from",
             "description": null,
-            "color": null
+            "color": "#ffff00"
         },
         {
-            "relation_id": 474,
-            "component_id": 254,
-            "name": "cgjfgjhn",
+            "relation_id": 368,
+            "component_id": 367,
+            "name": "Фонарь",
             "type": null,
-            "mode": "from",
+            "mode": "to",
             "description": null,
-            "color": null
-        },
-        {
-            "relation_id": 475,
-            "component_id": 334,
-            "name": "Александр Блок",
-            "type": null,
-            "mode": "from",
-            "description": null,
-            "color": null
+            "color": "#000000"
         }
     ],
     "annotated": [],
-    "workspace_id": 138
+    "workspace_id": 360
 }
 ```
 
