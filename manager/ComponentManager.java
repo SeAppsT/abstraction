@@ -59,7 +59,6 @@ public class ComponentManager{
         Component component = this.componentRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         ExtendedComponentViewer viewer = new ExtendedComponentViewer(component);
         viewer.files = this.mediaRepository.findAllByComponent_Id(component.getId());
-        viewer.relations = new ArrayList<>();
         List<Relation> relations = this.relationRepository.findAllByComponentFrom_IdOrComponentTo_Id(component.getId(), component.getId());
         for (Relation relation: relations) {
             if (relation.getComponentFrom().getType().equals("block") || relation.getComponentTo().getType().equals("block")) {
@@ -128,9 +127,7 @@ public class ComponentManager{
     public ContainerComponentViewer getLocalAbstractionLevel(Long component_id) throws EntityNotFoundException {
         Component component = this.componentRepository.findById(component_id).orElseThrow(EntityNotFoundException::new);
         ContainerComponentViewer main = new ContainerComponentViewer(component);
-        List<Relation> relations = this.relationRepository.findAllByComponentFrom_Id(component_id);
-        relations.forEach(relation -> {
-
+        component.getLowerRelations().forEach(relation -> {
             main.components.add(new SimpleComponentViewer(relation.getComponentTo()));
         });
         return main;

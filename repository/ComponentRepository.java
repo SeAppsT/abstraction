@@ -1,6 +1,7 @@
 package com.example.beck.repository;
 
 import com.example.beck.domain.Component;
+import com.example.beck.domain.Relation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

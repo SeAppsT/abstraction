@@ -51,29 +51,22 @@ public class WorkspaceManager {
         Workspace workspace = this.workspaceRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         WorkspaceViewer viewer = new WorkspaceViewer(workspace);
         // get from DB
-        List<Component> components = this.componentRepository.findAllByWorkspace_IdAndType(workspace.getId(), "block");
+        List<Component> components = this.componentRepository.findAllByWorkspace_Id(workspace.getId());
         List<Component> annotations = this.componentRepository.findAllByWorkspace_IdAndType(workspace.getId(), "annotation");
-
-        List<Relation> simpleRelations = this.relationRepository.findAllByWorkspace_Id(workspace.getId());
         // List<Component> namedRelations = this.componentRepository.findAllByWorkspace_IdAndType(workspace.getId(), "relationship");
 
         // processing
-        viewer.components = new ArrayList<>();
         for (Component component: components) {
             SimpleComponentViewer scv = new SimpleComponentViewer(component);
-            scv.relations = new ArrayList<>();
-            for (Relation relation: simpleRelations){
-                if (relation.getComponentFrom().getId().equals(scv.getId())){
+            for (Relation relation: component.getLowerRelations()){
+                System.out.println("Relation " + relation.getComponentTo().getType());
+                if (relation.getComponentTo().getType().equals("annotation"))
+                    scv.annotated.add(new AnnotationComponentViewer(relation.getComponentTo()));
+                else {
                     RelationViewer rv = new RelationViewer(relation);
-                    if (relation.getComponentTo().getType() != null) { // for old blocks
-                        if (relation.getComponentTo().getType().equals("block")) {
-                            rv.component_id = relation.getComponentTo().getId();
-                            rv.color = "";
-                        } else if (relation.getComponentTo().getType().equals("annotation")) {
-                            scv.annotated.add(new AnnotationComponentViewer(relation.getComponentTo()));
-                        }
-                    }
+                    rv.component_id = relation.getComponentTo().getId();
                     scv.relations.add(rv);
+                    System.out.println(scv.relations.get(scv.relations.size()-1));
                 }
             }
             viewer.components.add(scv);

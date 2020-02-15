@@ -32,6 +32,28 @@ public class Component extends BaseEntity{
     @Column
     private String title_from;
 
+    @OneToMany(mappedBy = "componentFrom", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Relation> relationsFrom;
+
+    @OneToMany(mappedBy = "componentTo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Relation> relationsTo;
+
+    public List<Relation> getLowerRelations() {
+        return relationsFrom;
+    }
+
+    public void setLowerRelations(List<Relation> relations) {
+        this.relationsFrom = relations;
+    }
+
+    public List<Relation> getHigherRelations(){
+        return this.relationsTo;
+    }
+
+    public void setHigherRelations(List<Relation> relations){
+        this.relationsTo = relations;
+    }
+
     public String getTitle_to() {
         return title_to;
     }

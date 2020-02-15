@@ -12,7 +12,7 @@ import java.util.List;
 @Viewer
 public class WorkspaceViewer extends Workspace {
 
-    public List<SimpleComponentViewer> components;
+    public List<SimpleComponentViewer> components = new ArrayList<>();
     public List<AnnotationComponentViewer> annotations = new ArrayList<>();
 
     public WorkspaceViewer(Workspace workspace){
