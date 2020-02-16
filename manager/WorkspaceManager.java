@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -51,7 +52,7 @@ public class WorkspaceManager {
         Workspace workspace = this.workspaceRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         WorkspaceViewer viewer = new WorkspaceViewer(workspace);
         // get from DB
-        List<Component> components = this.componentRepository.findAllByWorkspace_Id(workspace.getId());
+        List<Component> components = this.componentRepository.findAllByWorkspace_IdAndTypeNot(workspace.getId(), "annotation");
         List<Component> annotations = this.componentRepository.findAllByWorkspace_IdAndType(workspace.getId(), "annotation");
         // List<Component> namedRelations = this.componentRepository.findAllByWorkspace_IdAndType(workspace.getId(), "relationship");
 
@@ -59,14 +60,12 @@ public class WorkspaceManager {
         for (Component component: components) {
             SimpleComponentViewer scv = new SimpleComponentViewer(component);
             for (Relation relation: component.getLowerRelations()){
-                System.out.println("Relation " + relation.getComponentTo().getType());
                 if (relation.getComponentTo().getType().equals("annotation"))
                     scv.annotated.add(new AnnotationComponentViewer(relation.getComponentTo()));
                 else {
                     RelationViewer rv = new RelationViewer(relation);
                     rv.component_id = relation.getComponentTo().getId();
                     scv.relations.add(rv);
-                    System.out.println(scv.relations.get(scv.relations.size()-1));
                 }
             }
             viewer.components.add(scv);

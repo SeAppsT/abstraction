@@ -11,7 +11,7 @@ public class ContainerComponentViewer {
     public Long id;
     public String name;
     public Long workspace_id;
-    public List<AnnotationComponentViewer> annotated = new ArrayList<>();
+    public List<AnnotationComponentViewer> annotations = new ArrayList<>();
     public List<SimpleComponentViewer> components = new ArrayList<>();
 
     public ContainerComponentViewer(Component component){

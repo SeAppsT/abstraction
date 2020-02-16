@@ -12,4 +12,5 @@ import java.util.Optional;
 public interface ComponentRepository extends BaseRepository<Component> {
     public List<Component> findAllByWorkspace_Id(Long id);
     public List<Component> findAllByWorkspace_IdAndType(Long workspace_id, String type);
+    public List<Component> findAllByWorkspace_IdAndTypeNot(Long workspace_id, String type);
 }
