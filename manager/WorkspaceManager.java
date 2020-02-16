@@ -60,12 +60,15 @@ public class WorkspaceManager {
         for (Component component: components) {
             SimpleComponentViewer scv = new SimpleComponentViewer(component);
             for (Relation relation: component.getLowerRelations()){
-                if (relation.getComponentTo().getType().equals("annotation"))
-                    scv.annotated.add(new AnnotationComponentViewer(relation.getComponentTo()));
-                else {
+                if (!relation.getComponentTo().getType().equals("annotation")){
                     RelationViewer rv = new RelationViewer(relation);
                     rv.component_id = relation.getComponentTo().getId();
                     scv.relations.add(rv);
+                }
+            }
+            for (Relation relation: component.getHigherRelations()){
+                if (relation.getComponentFrom().getType().equals("annotation")){
+                    scv.annotated.add(new AnnotationComponentViewer(relation.getComponentFrom()));
                 }
             }
             viewer.components.add(scv);

@@ -126,13 +126,28 @@ public class ComponentManager{
         Component component = this.componentRepository.findById(component_id).orElseThrow(EntityNotFoundException::new);
         ContainerComponentViewer main = new ContainerComponentViewer(component);
 
-        component.getLowerRelations().forEach(relation -> {
-            main.components.add(new SimpleComponentViewer(relation.getComponentTo()));
+        component.getLowerRelations().forEach(relation -> { // components
+            SimpleComponentViewer scv = new SimpleComponentViewer(relation.getComponentTo());
+
+            for (Relation rel: relation.getComponentTo().getLowerRelations()){
+                if (!relation.getComponentTo().getType().equals("annotation")){
+                    RelationViewer rv = new RelationViewer(rel);
+                    rv.component_id = rel.getComponentTo().getId();
+                    scv.relations.add(rv);
+                }
+            }
+
+            for (Relation rel: relation.getComponentFrom().getHigherRelations()){
+                if (relation.getComponentFrom().getType().equals("annotation")){
+                    scv.annotated.add(new AnnotationComponentViewer(rel.getComponentFrom()));
+                }
+            }
+
+            main.components.add(scv);
         });
 
         List<Component> annotations = this.componentRepository.findAllByWorkspace_IdAndType(main.workspace_id, "annotation");
         annotations.forEach(annotation -> {
-            System.out.println("hjkh");
             main.annotations.add(new AnnotationComponentViewer(annotation));
         });
         return main;
