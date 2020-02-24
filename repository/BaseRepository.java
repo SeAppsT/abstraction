@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface BaseRepository<T extends BaseEntity> extends JpaRepository<T, Long> {
-    default <E extends T> void safeDelete(E entity){
+    /*default <E extends T> void safeDelete(E entity){
         entity.setStatus("DELETED");
         save(entity);
     }

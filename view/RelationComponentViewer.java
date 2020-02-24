@@ -3,9 +3,10 @@ package com.example.beck.view;
 import com.example.beck.annotations.Viewer;
 import com.example.beck.domain.Component;
 import com.example.beck.domain.Relation;
+import com.example.beck.view.interfaces.ComponentViewer;
 
 @Viewer
-public class RelationComponentViewer {
+public class RelationComponentViewer implements ComponentViewer {
     public Long relation_id;
     public Long component_id;
     public String name;

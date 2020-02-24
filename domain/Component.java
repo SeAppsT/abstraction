@@ -3,6 +3,7 @@ package com.example.beck.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.data.jpa.repository.Query;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,15 +11,17 @@ import java.util.List;
 @Entity
 @Table(name = "components")
 @EntityListeners(AuditingEntityListener.class)
-public class Component extends BaseEntity{
+public class Component extends BaseEntity {
 
-    @JoinColumn(nullable = false)
+    @JoinColumn
     @ManyToOne(fetch = FetchType.LAZY)
     @CreatedBy
     private User user;
 
-    @Column
-    protected int num_cell;
+    @JoinColumn
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Workspace workspace;
 
     @Column(nullable = false)
     protected String type = "block";
@@ -32,11 +35,22 @@ public class Component extends BaseEntity{
     @Column
     private String title_from;
 
+    @Column
+    private String attribute;
+
     @OneToMany(mappedBy = "componentFrom", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Relation> relationsFrom;
 
     @OneToMany(mappedBy = "componentTo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Relation> relationsTo;
+
+    public String getAttribute() {
+        return attribute;
+    }
+
+    public void setAttribute(String attribute) {
+        this.attribute = attribute;
+    }
 
     public List<Relation> getLowerRelations() {
         return relationsFrom;
@@ -70,11 +84,6 @@ public class Component extends BaseEntity{
         this.title_from = title_from;
     }
 
-    @JoinColumn(nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
-    private Workspace workspace;
-
     /*
     @OneToMany(mappedBy = "component_to", fetch = FetchType.LAZY)
     protected List<Relation> relations_to;
@@ -106,14 +115,6 @@ public class Component extends BaseEntity{
 
     public void setWorkspace(Workspace workspace) {
         this.workspace = workspace;
-    }
-
-    public int getNum_cell() {
-        return num_cell;
-    }
-
-    public void setNum_cell(int num_cell) {
-        this.num_cell = num_cell;
     }
 
     public String getType() {

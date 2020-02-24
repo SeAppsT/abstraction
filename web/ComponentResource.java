@@ -45,7 +45,7 @@ public class ComponentResource {
     }
 
     @PostMapping
-    public ResponseEntity addComponent(@RequestBody @Validated(Add.class) ComponentDto componentDto) throws InvalidPropertyException {
+    public ResponseEntity addComponent(@RequestBody @Validated(Add.class) ComponentDto componentDto) throws InvalidPropertyException, EntityNotFoundException {
         this.componentService.addComponent(componentDto);
         return ResponseEntity.ok().build();
     }

@@ -1,20 +1,18 @@
 package com.example.beck.manager;
 
+import com.example.beck.domain.Cell;
 import com.example.beck.domain.Component;
 import com.example.beck.domain.Relation;
 import com.example.beck.domain.Workspace;
 import com.example.beck.dto.ComponentDto;
 import com.example.beck.exception.EntityNotFoundException;
 import com.example.beck.exception.InvalidPropertyException;
-import com.example.beck.repository.ComponentRepository;
-import com.example.beck.repository.MediaRepository;
-import com.example.beck.repository.RelationRepository;
-import com.example.beck.repository.WorkspaceRepository;
+import com.example.beck.repository.*;
 import com.example.beck.view.*;
+import com.example.beck.view.interfaces.VolumeViewer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,35 +22,39 @@ public class ComponentManager{
     private WorkspaceRepository workspaceRepository;
     private MediaRepository mediaRepository;
     private RelationRepository relationRepository;
+    private CellRepository cellRepository;
 
     @Autowired
-    public ComponentManager(ComponentRepository componentRepository, WorkspaceRepository workspaceRepository, MediaRepository mediaRepository, RelationRepository relationRepository) {
+    public ComponentManager(ComponentRepository componentRepository, WorkspaceRepository workspaceRepository, MediaRepository mediaRepository, RelationRepository relationRepository, CellRepository cellRepository) {
         this.componentRepository = componentRepository;
         this.workspaceRepository = workspaceRepository;
         this.mediaRepository = mediaRepository;
         this.relationRepository = relationRepository;
+        this.cellRepository = cellRepository;
     }
 
-    public void addComponent(ComponentDto componentDto) throws InvalidPropertyException {
-        Component component = componentDto.cast(new Component());
-        component.setWorkspace(this.workspaceRepository.findById(componentDto.workspace_id).orElseThrow(InvalidPropertyException::new));
-        component.setNum_cell(componentDto.num_cell);
-        this.componentRepository.save(component);
+    public void addComponent(ComponentDto componentDto) throws InvalidPropertyException, EntityNotFoundException {
+        Component parentComponent = this.componentRepository.findByAttributeAndWorkspace_Id("main", componentDto.workspace_id).orElseThrow(EntityNotFoundException::new);
+        this.saveComponent(componentDto, parentComponent);
     }
 
-    public void addDependComponent(Long id, ComponentDto componentDto) throws EntityNotFoundException {
-        Component parentComponent = this.componentRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    public void saveComponent(ComponentDto componentDto, Component parentComponent) throws EntityNotFoundException {
         Component addedComponent = componentDto.cast(new Component());
-        addedComponent.setNum_cell(componentDto.num_cell);
         Workspace workspace = this.workspaceRepository.findById(componentDto.workspace_id).orElseThrow(EntityNotFoundException::new);
         addedComponent.setWorkspace(workspace);
         this.componentRepository.save(addedComponent);
+
         Relation abstractionRelation = new Relation();
         abstractionRelation.setComponentFrom(parentComponent);
         abstractionRelation.setComponentTo(addedComponent);
         abstractionRelation.setType("abstraction");
         abstractionRelation.setWorkspace(workspace);
         this.relationRepository.save(abstractionRelation);
+    }
+
+    public void addDependComponent(Long id, ComponentDto componentDto) throws EntityNotFoundException {
+        Component parentComponent = this.componentRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        this.saveComponent(componentDto, parentComponent);
     }
 
     public ExtendedComponentViewer getOneComponent(Long id) throws EntityNotFoundException {
@@ -85,8 +87,6 @@ public class ComponentManager{
 
     public void editComponent(ComponentDto componentDto, Long id) throws EntityNotFoundException {
         Component component = this.componentRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        if (componentDto.num_cell != 0)
-            component.setNum_cell(componentDto.num_cell);
         componentDto.cast(component);
         this.componentRepository.save(component);
     }
@@ -116,40 +116,50 @@ public class ComponentManager{
         this.componentRepository.save(component);
     }
 
-    public void setPosition(Long id, int num_cell) throws EntityNotFoundException {
-        Component component = this.componentRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        component.setNum_cell(num_cell);
-        this.componentRepository.save(component);
-    }
-
     public ContainerComponentViewer getLocalAbstractionLevel(Long component_id) throws EntityNotFoundException {
         Component component = this.componentRepository.findById(component_id).orElseThrow(EntityNotFoundException::new);
-        ContainerComponentViewer main = new ContainerComponentViewer(component);
+        ContainerComponentViewer viewer = new ContainerComponentViewer(component);
+        return (ContainerComponentViewer) this.fillViewer(component, viewer);
+    }
+
+    public VolumeViewer fillViewer(Component component, VolumeViewer viewer){
 
         component.getLowerRelations().forEach(relation -> { // components
             SimpleComponentViewer scv = new SimpleComponentViewer(relation.getComponentTo());
 
+            Cell cell = this.cellRepository.findByComponent_IdAndInnerComponent_Id(relation.getComponentTo().getId(), component.getId()).orElse(null);
+            if (cell == null){
+                cell = new Cell();
+                cell.setCord_x(0);
+                cell.setCord_y(0);
+                cell.setComponent(relation.getComponentTo());
+                cell.setInnerComponent(component);
+                this.cellRepository.save(cell);
+            }
+            scv.x = cell.getCord_x();
+            scv.y = cell.getCord_y();
+
             for (Relation rel: relation.getComponentTo().getLowerRelations()){
-                if (!relation.getComponentTo().getType().equals("annotation")){
+                if (!rel.getComponentTo().getType().equals("annotation")){
                     RelationViewer rv = new RelationViewer(rel);
                     rv.component_id = rel.getComponentTo().getId();
                     scv.relations.add(rv);
                 }
             }
 
-            for (Relation rel: relation.getComponentFrom().getHigherRelations()){
-                if (relation.getComponentFrom().getType().equals("annotation")){
+            for (Relation rel: relation.getComponentTo().getHigherRelations()){
+                if (rel.getComponentFrom().getType().equals("annotation")){
                     scv.annotated.add(new AnnotationComponentViewer(rel.getComponentFrom()));
                 }
             }
-
-            main.components.add(scv);
+            viewer.addComponent(scv);
         });
 
-        List<Component> annotations = this.componentRepository.findAllByWorkspace_IdAndType(main.workspace_id, "annotation");
+        List<Component> annotations = this.componentRepository.findAllByWorkspace_IdAndType(component.getWorkspace().getId(), "annotation");
+        annotations.add(component);
         annotations.forEach(annotation -> {
-            main.annotations.add(new AnnotationComponentViewer(annotation));
+            viewer.addAnnotation(new AnnotationComponentViewer(annotation));
         });
-        return main;
+        return viewer;
     }
 }

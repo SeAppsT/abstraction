@@ -14,7 +14,10 @@ public class ComponentDto extends BaseDto {
     public Long workspace_id;
 
     @NotNull(groups = Add.class)
-    public int num_cell;
+    public int cord_x;
+
+    @NotNull(groups = Add.class)
+    public int cord_y;
 
     public String type;
     public String color;
@@ -40,7 +43,19 @@ public class ComponentDto extends BaseDto {
         this.workspace_id = workspace_id;
     }
 
-    public void setNum_cell(int num_cell) {
-        this.num_cell = num_cell;
+    public void setCord_x(int cord_x) {
+        this.cord_x = cord_x;
+    }
+
+    public void setCord_y(int cord_y) {
+        this.cord_y = cord_y;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }

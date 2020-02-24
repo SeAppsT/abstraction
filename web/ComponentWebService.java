@@ -34,9 +34,9 @@ public class ComponentWebService {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/position")
-    public ResponseEntity setPosition(@PathVariable Long id, @RequestBody int num_cell) throws EntityNotFoundException {
-        this.componentManager.setPosition(id, num_cell);
-        return ResponseEntity.ok().build();
-    }
+    //@PostMapping("/position")
+    //public ResponseEntity setPosition(@PathVariable Long id, @RequestBody int num_cell) throws EntityNotFoundException {
+      //  this.componentManager.setPosition(id, num_cell);
+      //  return ResponseEntity.ok().build();
+    //}
 }
