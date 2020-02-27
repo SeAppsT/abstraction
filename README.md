@@ -80,55 +80,35 @@
 
 **Response:** response example
 ```
+
 {
-    "id": 138,
+    "id": 1052,
     "status": "ACTIVE",
-    "name": "workspace by new spring",
-    "description": "it's my new workspace",
+    "name": "AfterOptimization",
+    "description": "",
     "user": null,
     "components": [
         {
-            "id": 180,
-            "status": "ACTIVE",
-            "name": "V6",
-            "description": "This block is deprecated",
-            "user": null,
-            "num_cell": 1,
+            "id": 1055,
+            "name": "TestBlock",
+            "description": "",
             "type": "block",
             "color": null,
-            "relations": [
-                {
-                    "component_id": 156,
-                    "type": "abstraction",
-                    "name": null,
-                    "color": ""
-                }
-            ]
-        },
+            "x": 1,
+            "y": 2,
+            "relations": [],
+            "annotated": []
+        }
+    ],
+    "annotations": [
         {
-            "id": 159,
-            "status": "ACTIVE",
-            "name": "Смотрю",
-            "description": null,
-            "user": null,
-            "num_cell": 7,
-            "type": "block",
-            "color": null,
-            "relations": []
-        },
-        {
-            "id": 151,
-            "status": "ACTIVE",
-            "name": "Component added",
-            "description": "Кто addнул this component?",
-            "user": null,
-            "num_cell": 4,
-            "type": "block",
-            "color": null,
-            "relations": []
+            "id": 1053,
+            "name": "Корень",
+            "color": "#000000"
         }
     ]
 }
+
 ```
 
 ### POST /workspace
@@ -195,19 +175,27 @@
 **Response:** response example
 ```
 {
-    "id": 189,
-    "name": "И чо дальше?",
+    "id": 1053,
+    "name": "Корень",
+    "workspace_id": 1052,
+    "annotations": [
+        {
+            "id": 1053,
+            "name": "Корень",
+            "color": "#000000"
+        }
+    ],
     "components": [
         {
-            "id": 354,
-            "status": "ACTIVE",
-            "name": "ElseOneEditedComponent",
+            "id": 1055,
+            "name": "TestBlock",
             "description": "",
-            "user": null,
-            "num_cell": 8,
             "type": "block",
             "color": null,
-            "relations": null
+            "x": 1,
+            "y": 2,
+            "relations": [],
+            "annotated": []
         }
     ]
 }
@@ -218,7 +206,8 @@
 * **@Nn** name
 * **@Nn** description
 * workspace_id
-* num_cell
+* x
+* y
 **Response:** status code
 
 ### POST /component/{component_id}
@@ -226,7 +215,8 @@
 * **@Nn** name
 * **@Nn** description
 * workspace_id
-* num_cell
+* x
+* y
 **Response:** status code
 **Note:** to create components with relation by one step
 

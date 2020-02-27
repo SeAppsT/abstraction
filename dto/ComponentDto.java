@@ -14,10 +14,10 @@ public class ComponentDto extends BaseDto {
     public Long workspace_id;
 
     @NotNull(groups = Add.class)
-    public int cord_x;
+    public int x;
 
     @NotNull(groups = Add.class)
-    public int cord_y;
+    public int y;
 
     public String type;
     public String color;
@@ -35,6 +35,7 @@ public class ComponentDto extends BaseDto {
             component.setType(this.type);
         component.setColor(this.color);
         component.setTitle_to(this.title_to);
+
         component.setTitle_from(this.title_from);
         return component;
     }
@@ -43,12 +44,12 @@ public class ComponentDto extends BaseDto {
         this.workspace_id = workspace_id;
     }
 
-    public void setCord_x(int cord_x) {
-        this.cord_x = cord_x;
+    public void setX(int x) {
+        this.x = x;
     }
 
-    public void setCord_y(int cord_y) {
-        this.cord_y = cord_y;
+    public void setY(int y) {
+        this.y = y;
     }
 
     public void setType(String type) {

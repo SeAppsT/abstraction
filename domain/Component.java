@@ -44,6 +44,12 @@ public class Component extends BaseEntity {
     @OneToMany(mappedBy = "componentTo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Relation> relationsTo;
 
+    @OneToMany(mappedBy = "component", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Cell> cells;
+
+    @OneToMany(mappedBy = "innerComponent", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Cell> innerCells;
+
     public String getAttribute() {
         return attribute;
     }
@@ -131,5 +137,21 @@ public class Component extends BaseEntity {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public List<Cell> getCells() {
+        return cells;
+    }
+
+    public void setCells(List<Cell> cells) {
+        this.cells = cells;
+    }
+
+    public List<Cell> getInnerCells() {
+        return innerCells;
+    }
+
+    public void setInnerCells(List<Cell> innerCells) {
+        this.innerCells = innerCells;
     }
 }

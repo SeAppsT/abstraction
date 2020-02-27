@@ -44,6 +44,13 @@ public class ComponentManager{
         addedComponent.setWorkspace(workspace);
         this.componentRepository.save(addedComponent);
 
+        Cell cell = new Cell();
+        cell.setCord_x(componentDto.x);
+        cell.setCord_y(componentDto.y);
+        cell.setComponent(addedComponent);
+        cell.setInnerComponent(parentComponent);
+        this.cellRepository.save(cell);
+
         Relation abstractionRelation = new Relation();
         abstractionRelation.setComponentFrom(parentComponent);
         abstractionRelation.setComponentTo(addedComponent);
