@@ -208,6 +208,7 @@
 * workspace_id
 * x
 * y
+
 **Response:** status code
 
 ### POST /component/{component_id}
@@ -217,7 +218,9 @@
 * workspace_id
 * x
 * y
+
 **Response:** status code
+
 **Note:** to create components with relation by one step
 
 ### PUT /component/{id}
