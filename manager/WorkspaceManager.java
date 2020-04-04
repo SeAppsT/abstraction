@@ -72,6 +72,7 @@ public class WorkspaceManager {
         component.setWorkspace(workspace);
         component.setColor("#000000");
         component.setAttribute("main");
+        component.setWorkspace(workspace);
 
         this.componentRepository.save(component);
 

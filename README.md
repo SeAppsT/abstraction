@@ -7,7 +7,7 @@
 * **@Rest** annotation marked the following content as a resource path
 * **@Soa** annotation marked the following content as a calling functions path
 
-## List API (22 at least):
+## List API (23 at least):
 
 ## Auth/User
 
@@ -80,7 +80,6 @@
 
 **Response:** response example
 ```
-
 {
     "id": 1052,
     "status": "ACTIVE",
@@ -96,8 +95,22 @@
             "color": null,
             "x": 1,
             "y": 2,
-            "relations": [],
-            "annotated": []
+            "relations": [
+                {
+                    "id": 1060,
+                    "component_id": 1058,
+                    "type": "abstraction",
+                    "name": null,
+                    "color": null
+                }
+            ],
+            "annotated": [
+                {
+                    "id": 1053,
+                    "name": "Корень",
+                    "color": "#000000"
+                }
+            ]
         }
     ],
     "annotations": [
@@ -253,11 +266,14 @@
 
 ### POST /component/{id}/position
 **Params:**
-* num_cell: **int**
+* x **int**
+* y **int**
+* parent_id **int**
 
 **Response:** status code
 
 **Note:** *changes position of component*
+
 
 ## Relation
 ### *@Rest*

@@ -5,6 +5,7 @@ import com.example.beck.domain.Component;
 import com.example.beck.domain.Relation;
 import com.example.beck.domain.Workspace;
 import com.example.beck.dto.ComponentDto;
+import com.example.beck.dto.ComponentPositionDto;
 import com.example.beck.exception.EntityNotFoundException;
 import com.example.beck.exception.InvalidPropertyException;
 import com.example.beck.repository.*;
@@ -69,9 +70,17 @@ public class ComponentManager{
         ExtendedComponentViewer viewer = new ExtendedComponentViewer(component);
         viewer.files = this.mediaRepository.findAllByComponent_Id(component.getId());
         List<Relation> relations = this.relationRepository.findAllByComponentFrom_IdOrComponentTo_Id(component.getId(), component.getId());
-        for (Relation relation: relations) {
-            RelationComponentViewer rcv = new RelationComponentViewer(relation, this.checkForRelation(relation, component.getId()));
-            viewer.relations.add(rcv);
+
+        for (Relation rel: component.getLowerRelations()){
+            if (!rel.getComponentTo().getType().equals("annotation")){
+                viewer.relations.add(new RelationComponentViewer(rel, rel.getComponentTo()));
+            }
+        }
+
+        for (Relation rel: component.getHigherRelations()){
+            if (rel.getComponentFrom().getType().equals("annotation")){
+                viewer.annotated.add(new AnnotationComponentViewer(rel.getComponentFrom()));
+            }
         }
         return viewer;
     }
@@ -163,10 +172,16 @@ public class ComponentManager{
         });
 
         List<Component> annotations = this.componentRepository.findAllByWorkspace_IdAndType(component.getWorkspace().getId(), "annotation");
-        annotations.add(component);
         annotations.forEach(annotation -> {
             viewer.addAnnotation(new AnnotationComponentViewer(annotation));
         });
         return viewer;
+    }
+
+    public void changePosition(Long id, ComponentPositionDto componentPositionDto) throws EntityNotFoundException {
+        Cell cell = this.cellRepository.findByComponent_IdAndInnerComponent_Id(id, componentPositionDto.parent_id).orElseThrow(EntityNotFoundException::new);
+        cell.setCord_x(componentPositionDto.x);
+        cell.setCord_y(componentPositionDto.y);
+        this.cellRepository.save(cell);
     }
 }

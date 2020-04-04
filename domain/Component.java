@@ -18,7 +18,7 @@ public class Component extends BaseEntity {
     @CreatedBy
     private User user;
 
-    @JoinColumn
+    @JoinColumn(nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private Workspace workspace;

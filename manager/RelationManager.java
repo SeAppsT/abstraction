@@ -35,11 +35,14 @@ public class RelationManager {
 
         this.relationRepository.save(relation);
 
-        Cell cell = new Cell();
-        cell.setComponent(relation.getComponentFrom());
-        cell.setInnerComponent(relation.getComponentTo());
-        cell.setCord_x(0);
-        cell.setCord_y(0);
+        Cell cell = this.cellRepository.findByComponent_IdAndInnerComponent_Id(relation.getComponentTo().getId(), relation.getComponentFrom().getId()).orElse(null);
+        if (cell == null) {
+            cell = new Cell();
+            cell.setComponent(relation.getComponentFrom());
+            cell.setInnerComponent(relation.getComponentTo());
+            cell.setCord_x(0);
+            cell.setCord_y(0);
+        }
         this.cellRepository.save(cell);
     }
 
