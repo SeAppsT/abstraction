@@ -21,10 +21,8 @@ public class Workspace extends BaseEntity {
     @CreatedBy
     private User user;
 
-    /*
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "workspace")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "workspace", cascade = CascadeType.ALL)
     protected List<Component> components;
-    */
 
     public Workspace(Long id){
         this.setId(id);
@@ -38,5 +36,13 @@ public class Workspace extends BaseEntity {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<Component> getComponents() {
+        return components;
+    }
+
+    public void setComponents(List<Component> components) {
+        this.components = components;
     }
 }
