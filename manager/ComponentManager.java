@@ -24,14 +24,16 @@ public class ComponentManager{
     private MediaRepository mediaRepository;
     private RelationRepository relationRepository;
     private CellRepository cellRepository;
+    private LinkRepository linkRepository;
 
     @Autowired
-    public ComponentManager(ComponentRepository componentRepository, WorkspaceRepository workspaceRepository, MediaRepository mediaRepository, RelationRepository relationRepository, CellRepository cellRepository) {
+    public ComponentManager(ComponentRepository componentRepository, WorkspaceRepository workspaceRepository, MediaRepository mediaRepository, RelationRepository relationRepository, CellRepository cellRepository, LinkRepository linkRepository) {
         this.componentRepository = componentRepository;
         this.workspaceRepository = workspaceRepository;
         this.mediaRepository = mediaRepository;
         this.relationRepository = relationRepository;
         this.cellRepository = cellRepository;
+        this.linkRepository = linkRepository;
     }
 
     public void addComponent(ComponentDto componentDto) throws InvalidPropertyException, EntityNotFoundException {
@@ -69,6 +71,7 @@ public class ComponentManager{
         Component component = this.componentRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         ExtendedComponentViewer viewer = new ExtendedComponentViewer(component);
         viewer.files = this.mediaRepository.findAllByComponent_Id(component.getId());
+        viewer.links = this.linkRepository.findAllByComponent_Id(component.getId());
 
         for (Relation rel: component.getLowerRelations()){
             if (!rel.getComponentTo().getType().equals("annotation")){
@@ -79,6 +82,8 @@ public class ComponentManager{
         for (Relation rel: component.getHigherRelations()){
             if (rel.getComponentFrom().getType().equals("annotation")){
                 viewer.annotated.add(new AnnotationComponentViewer(rel.getComponentFrom()));
+            } else{
+                viewer.relations_to.add(new RelationComponentViewer(rel, rel.getComponentFrom()));
             }
         }
         return viewer;

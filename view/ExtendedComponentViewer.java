@@ -2,6 +2,7 @@ package com.example.beck.view;
 
 import com.example.beck.annotations.Viewer;
 import com.example.beck.domain.Component;
+import com.example.beck.domain.Link;
 import com.example.beck.domain.Media;
 import com.example.beck.view.interfaces.ComponentViewer;
 
@@ -17,8 +18,10 @@ public class ExtendedComponentViewer implements ComponentViewer {
     public String type;
     public String color;
     public List<Media> files;
+    public List<Link> links;
     public List<RelationComponentViewer> relations = new ArrayList<>();
     public List<AnnotationComponentViewer> annotated = new ArrayList<>();
+    public List<RelationComponentViewer> relations_to = new ArrayList<>();
     public Long workspace_id;
     public String title_to;
     public String title_from;
