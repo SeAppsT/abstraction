@@ -9,8 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Viewer
-public class WorkspaceViewer extends Workspace implements VolumeViewer {
+public class WorkspaceViewer implements VolumeViewer {
 
+    public Long id;
+    public String description;
+    public String name;
     public List<SimpleComponentViewer> components = new ArrayList<>();
     public List<AnnotationComponentViewer> annotations = new ArrayList<>();
 
@@ -18,6 +21,26 @@ public class WorkspaceViewer extends Workspace implements VolumeViewer {
         this.id = workspace.getId();
         this.description = workspace.getDescription();
         this.name = workspace.getName();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<SimpleComponentViewer> getComponents() {
+        return components;
+    }
+
+    public List<AnnotationComponentViewer> getAnnotations() {
+        return annotations;
     }
 
     @Override

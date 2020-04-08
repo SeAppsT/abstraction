@@ -38,6 +38,9 @@ public class Component extends BaseEntity {
     @Column
     private String attribute;
 
+    @OneToMany
+    private List<Link> links;
+
     @OneToMany(mappedBy = "componentFrom", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Relation> relationsFrom;
 
@@ -50,6 +53,14 @@ public class Component extends BaseEntity {
     @OneToMany(mappedBy = "innerComponent", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Cell> innerCells;
 
+    public List<Link> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<Link> links) {
+        this.links = links;
+    }
+
     public String getAttribute() {
         return attribute;
     }
@@ -59,7 +70,7 @@ public class Component extends BaseEntity {
     }
 
     public List<Relation> getLowerRelations() {
-        return relationsFrom;
+        return this.relationsFrom;
     }
 
     public void setLowerRelations(List<Relation> relations) {

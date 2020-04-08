@@ -22,6 +22,26 @@ public class ContainerComponentViewer implements ComponentViewer, VolumeViewer {
         this.workspace_id = component.getWorkspace().getId();
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Long getWorkspace_id() {
+        return workspace_id;
+    }
+
+    public List<SimpleComponentViewer> getComponents() {
+        return components;
+    }
+
+    public List<AnnotationComponentViewer> getAnnotations() {
+        return annotations;
+    }
+
     @Override
     public void addComponent(SimpleComponentViewer viewer) {
         this.components.add(viewer);

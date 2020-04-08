@@ -69,7 +69,6 @@ public class ComponentManager{
         Component component = this.componentRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         ExtendedComponentViewer viewer = new ExtendedComponentViewer(component);
         viewer.files = this.mediaRepository.findAllByComponent_Id(component.getId());
-        List<Relation> relations = this.relationRepository.findAllByComponentFrom_IdOrComponentTo_Id(component.getId(), component.getId());
 
         for (Relation rel: component.getLowerRelations()){
             if (!rel.getComponentTo().getType().equals("annotation")){
