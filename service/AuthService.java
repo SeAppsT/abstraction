@@ -16,12 +16,14 @@ public class AuthService {
     private AuthenticationManager authenticationManager;
     private JwtTokenProvider jwtTokenProvider;
     private UserRepository userRepository;
+    private DataIntegrationService dataIntegrationService;
 
     @Autowired
-    public AuthService(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserRepository userRepository) {
+    public AuthService(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserRepository userRepository, DataIntegrationService dataIntegrationService) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
         this.userRepository = userRepository;
+        this.dataIntegrationService = dataIntegrationService;
     }
 
     public AuthViewer login(AuthDto userData) throws EntityNotFoundException {
@@ -32,6 +34,9 @@ public class AuthService {
         System.out.println("Generating token...");
         String token = jwtTokenProvider.createToken(login, user.getRoles());
         System.out.println("SUCCESS");
+
+        this.dataIntegrationService.setCredentials(userData);
+
         return new AuthViewer(user, token);
     }
 }

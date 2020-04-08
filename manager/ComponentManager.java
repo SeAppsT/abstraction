@@ -9,6 +9,7 @@ import com.example.beck.dto.ComponentPositionDto;
 import com.example.beck.exception.EntityNotFoundException;
 import com.example.beck.exception.InvalidPropertyException;
 import com.example.beck.repository.*;
+import com.example.beck.service.DataIntegrationService;
 import com.example.beck.view.*;
 import com.example.beck.view.interfaces.VolumeViewer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,15 +26,17 @@ public class ComponentManager{
     private RelationRepository relationRepository;
     private CellRepository cellRepository;
     private LinkRepository linkRepository;
+    private DataIntegrationService dataIntegrationService;
 
     @Autowired
-    public ComponentManager(ComponentRepository componentRepository, WorkspaceRepository workspaceRepository, MediaRepository mediaRepository, RelationRepository relationRepository, CellRepository cellRepository, LinkRepository linkRepository) {
+    public ComponentManager(ComponentRepository componentRepository, WorkspaceRepository workspaceRepository, MediaRepository mediaRepository, RelationRepository relationRepository, CellRepository cellRepository, LinkRepository linkRepository, DataIntegrationService dataIntegrationService) {
         this.componentRepository = componentRepository;
         this.workspaceRepository = workspaceRepository;
         this.mediaRepository = mediaRepository;
         this.relationRepository = relationRepository;
         this.cellRepository = cellRepository;
         this.linkRepository = linkRepository;
+        this.dataIntegrationService = dataIntegrationService;
     }
 
     public void addComponent(ComponentDto componentDto) throws InvalidPropertyException, EntityNotFoundException {
@@ -72,6 +75,10 @@ public class ComponentManager{
         ExtendedComponentViewer viewer = new ExtendedComponentViewer(component);
         viewer.files = this.mediaRepository.findAllByComponent_Id(component.getId());
         viewer.links = this.linkRepository.findAllByComponent_Id(component.getId());
+
+        viewer.links.forEach(link -> {
+            this.dataIntegrationService.setDataBlockInfo(link);
+        });
 
         for (Relation rel: component.getLowerRelations()){
             if (!rel.getComponentTo().getType().equals("annotation")){

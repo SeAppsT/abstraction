@@ -22,12 +22,12 @@ public class LinkDto extends BaseDto {
     @Override
     public Link cast(BaseEntity entity) {
         Link link = (Link) entity;
-        link.setName(this.name);
         link.setDescription(this.description);
         link.setLink(this.link);
         link.setType(this.type);
         return null;
     }
+
 
     public void setLink(String link) {
         this.link = link;

@@ -28,6 +28,7 @@ public class LinkResource {
     public ResponseEntity addLink(@RequestBody @Validated(Add.class) LinkDto linkDto) throws EntityNotFoundException {
         Link link = linkDto.cast(new Link());
         link.setComponent(this.componentRepository.findById(linkDto.component_id).orElseThrow(EntityNotFoundException::new));
+        link.setName(linkDto.link);
         this.linkRepository.save(link);
         return ResponseEntity.ok().build();
     }

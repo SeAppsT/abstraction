@@ -7,7 +7,7 @@
 * **@Rest** annotation marked the following content as a resource path
 * **@Soa** annotation marked the following content as a calling functions path
 
-## List API (23 at least):
+## List API (25 at least):
 
 ## Auth/User
 
@@ -334,5 +334,28 @@
 **Response:** status code
 
 ### DELETE /media/{id}
+
+**Response:** status code
+
+
+
+### POST /link
+**Params:**
+* **@Nn** name
+* **@Nn** description
+* type
+* link
+* component_id
+
+**Response:** status code
+
+### PUT /link/{id}
+**Params:**
+* **@Nn** description
+* **@Nn** link
+
+**Response:** status code
+
+### DELETE /link/{id}
 
 **Response:** status code
